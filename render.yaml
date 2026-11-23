@@ -1,10 +1,18 @@
-# Render.com blueprint: a free static site. Dashboard → New → Blueprint → pick this repository.
+# Render.com blueprint: one web service that serves the game and keeps the high score tables.
+# Dashboard → New → Blueprint → pick this repository.
 services:
   - type: web
     name: ursim-frc
-    runtime: static
-    buildCommand: npm ci --include=dev && npm run build
-    staticPublishPath: dist
+    runtime: node
+    # Closest to Europe and CIS players; Render also has oregon, ohio, virginia, singapore.
+    region: frankfurt
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build && npm run build:server
+    startCommand: node dist-server/index.mjs
+    healthCheckPath: /health
+    # Secrets go in the dashboard (Environment), not here: UPSTASH_REDIS_REST_URL and
+    # UPSTASH_REDIS_REST_TOKEN (high scores, accounts, statistics), GOOGLE_CLIENT_ID and
+    # GOOGLE_CLIENT_SECRET (sign in with Google). README → Accounts, statistics and friends.
     envVars:
       - key: NODE_VERSION
         value: 22.11.0
