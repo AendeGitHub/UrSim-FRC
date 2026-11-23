@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.DS_Store
+# Source CAD and the manual (large): the game uses public/assets.
+Field/*.step
+Field/*.stp
+Manual/*.pdf
+Manual/*.txt
+# The CAD conversion output: large, and the game draws its own field for now.
+public/assets/field.glb
