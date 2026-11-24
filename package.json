@@ -1,29 +1,39 @@
 {
   "name": "ursim-frc",
-  "version": "0.1.0",
+  "version": "2.0.0-beta",
   "private": true,
-  "description": "UrSim FRC Edition — FRC REBUILT 2026 driving simulator",
+  "description": "UrSim FRC — FRC REBUILT 2026 driving simulator",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:lan": "vite --host",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "convert:field": "node --max-old-space-size=8192 tools/convert-field.mjs"
+    "convert:field": "node --max-old-space-size=8192 tools/convert-field.mjs && npm run build:colliders",
+    "build:colliders": "node tools/build-colliders.mjs",
+    "server": "tsx server/index.ts",
+    "build:server": "esbuild server/index.ts --bundle --platform=node --format=esm --target=node18 --outdir=dist-server --out-extension:.js=.mjs --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\"",
+    "dev:lan": "vite --host",
+    "start": "node dist-server/index.mjs",
+    "desktop": "npm run build && node tools/prepare-desktop.mjs && npm --prefix desktop start",
+    "desktop:dist": "npm run build && node tools/prepare-desktop.mjs && npm --prefix desktop run dist"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "0.14.0",
-    "three": "0.170.0"
+    "three": "0.170.0",
+    "ws": "8.22.0"
   },
   "devDependencies": {
-    "@gltf-transform/core": "^4.1.1",
-    "@gltf-transform/extensions": "^4.1.1",
-    "@gltf-transform/functions": "^4.1.1",
+    "@gltf-transform/core": "4.1.1",
+    "@gltf-transform/extensions": "4.1.1",
+    "@gltf-transform/functions": "4.1.1",
     "@types/node": "22.9.0",
     "@types/three": "0.170.0",
-    "meshoptimizer": "^0.22.0",
-    "occt-import-js": "^0.0.22",
+    "@types/ws": "8.5.12",
+    "esbuild": "0.24.0",
+    "meshoptimizer": "0.22.0",
+    "occt-import-js": "0.0.22",
+    "tsx": "4.19.2",
     "typescript": "5.6.3",
     "vite": "5.4.11",
     "vitest": "2.1.5"

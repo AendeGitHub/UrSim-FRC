@@ -1,0 +1,69 @@
+{
+  "name": "ursim-frc-desktop",
+  "productName": "UrSim FRC",
+  "version": "1.3.0",
+  "description": "UrSim FRC — FIRST Robotics Competition REBUILT simulator",
+  "author": "URAN92",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --publish never"
+  },
+  "devDependencies": {
+    "electron": "44.5.1",
+    "electron-builder": "26.17.0"
+  },
+  "build": {
+    "appId": "com.uran92.ursim-frc",
+    "productName": "UrSim FRC",
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "signin.cjs",
+      "app/**/*"
+    ],
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "category": "public.app-category.games",
+      "identity": "-",
+      "hardenedRuntime": false,
+      "artifactName": "UrSim-FRC_${version}_Mac.${ext}"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "UrSim-FRC_${version}_Windows.${ext}"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Game",
+      "executableName": "ursim",
+      "artifactName": "UrSim-FRC_${version}_Linux.${ext}"
+    }
+  }
+}
